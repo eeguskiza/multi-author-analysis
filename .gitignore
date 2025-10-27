@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+
+# Entornos
+.venv/
+venv/
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# SO / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.history/
+
+# Datos y artefactos pesados
+data/raw/**
+data/processed/**
+features/**
+models/**
+reports/*.png
+reports/*.csv
+*.npz
+*.npy
+*.pkl
+*.kv
+*.bin
+*.pt
+*.onnx
+.cache/
+logs/
+checkpoints/
+
+# Mantener placeholders
+!data/.gitkeep
+!features/.gitkeep
+!reports/.gitkeep
+
+# Mantener informes Markdown
+!reports/*.md
