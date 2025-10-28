@@ -1,0 +1,15 @@
+# Notebooks — Entrega 2
+
+**00_analisis_inicial_raw.ipynb.** Audita el corpus bruto por nivel y split para asegurar que los datos están completos y en el formato esperado. Recorre `data/raw/{easy,medium,hard}/{train,validation}`, cuenta documentos, estima frases y tokens de forma heurística y detecta vacíos o duplicados. Genera tablas de control y algunas figuras simples en `reports/` para respaldar decisiones del preprocesado.
+
+**01_preprocesamiento.ipynb.** Convierte el RAW en frases normalizadas y reutilizables. Segmenta por signos de fin de oración con excepciones inglesas, normaliza (minúsculas, sustitución de URL, emails y números) y tokeniza; opcionalmente permite stemming (desactivado por defecto). La salida es un `sentences.jsonl` por nivel y split en `data/processed/...` con los campos `doc_id, sent_id, level, split, text_norm, n_tokens, is_boundary`.
+
+**02_analisis_datos.ipynb.** Analiza el conjunto ya procesado para validar que el pipeline ha sido consistente y para caracterizar el corpus. Calcula distribuciones por nivel y split (tokens por frase, frases por documento), detecta outliers, y produce gráficos de apoyo. Deja las tablas agregadas y las figuras en `reports/` para que puedan consultarse sin ejecutar todo el flujo.
+
+**03_representaciones_tradicionales.ipynb.** Construye representaciones TF-IDF a partir de las frases normalizadas. Ajusta los vectorizadores con `train` y transforma `train` y `validation` sin fugas de información. Incluye una vista de términos destacados y guarda matrices dispersas y metadatos en `features/tfidf/{word,char}`, junto con índices que permiten mapear cada fila a `(level, split, doc_id, sent_id)`.
+
+**04_embeddings_estaticos.ipynb.** Entrena Word2Vec sobre `train` y proyecta cada frase como la media de sus vectores de palabra. Informa del tamaño del vocabulario y de la cobertura OOV para comprobar que el modelo captura la mayor parte del léxico. Guarda el modelo (`.kv`), el vocabulario y las matrices de embeddings de frase por split en `features/embeddings_static/`, además de un resumen con los parámetros y coberturas.
+
+**05_embeddings_contextuales.ipynb.** Extrae embeddings por frase con `distilbert-base-uncased` usando mean pooling y `attention_mask`. Selecciona dispositivo automáticamente (CUDA/MPS/CPU) y registra la fracción de frases truncadas a `MAX_LEN`, junto con percentiles de longitud subpalabra para justificar el corte. Produce `C_train.npy` y `C_validation.npy` con sus índices y un `contextual_resumen.json` en `features/embeddings_contextual/`.
+
+**06_analisis_final.ipynb.** Integra y valida todo lo generado en la E2. Carga resúmenes de TF-IDF, Word2Vec y embeddings contextuales, y cruza shapes e índices con `data/processed` para comprobar consistencia por nivel y split. Calcula métricas globales (densidad TF-IDF, tamaños y coberturas de embeddings, ratio de truncado y percentiles de longitud subpalabra) y produce 4–5 gráficos globales. Escribe un `06_resumen_global.md` y las figuras en `reports/` como cierre de la entrega.
