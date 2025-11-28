@@ -1,0 +1,11 @@
+{
+  "label": "logreg_tfidf",
+  "metrics_val": {
+    "accuracy": 0.712534703762774,
+    "f1_macro": 0.5428190656952041,
+    "pk": 0.4494662841458641,
+    "windowdiff": 0.3023811629282995,
+    "k_window": 2
+  },
+  "classification_report": "              precision    recall  f1-score   support\n\n           0      0.823     0.820     0.821     27290\n           1      0.262     0.266     0.264      6568\n\n    accuracy                          0.713     33858\n   macro avg      0.543     0.543     0.543     33858\nweighted avg      0.714     0.713     0.713     33858\n"
+}

@@ -1,0 +1,11 @@
+{
+  "label": "svm_tfidf",
+  "metrics_val": {
+    "accuracy": 0.7358969815110166,
+    "f1_macro": 0.5446046354319862,
+    "pk": 0.4320654580788131,
+    "windowdiff": 0.2819819291940237,
+    "k_window": 2
+  },
+  "classification_report": "              precision    recall  f1-score   support\n\n           0      0.822     0.859     0.840     27290\n           1      0.278     0.226     0.249      6568\n\n    accuracy                          0.736     33858\n   macro avg      0.550     0.542     0.545     33858\nweighted avg      0.716     0.736     0.725     33858\n"
+}

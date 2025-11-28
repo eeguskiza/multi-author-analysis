@@ -110,14 +110,19 @@ def load_boundaries(processed_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
     return train, val
 
 
-def build_delta_matrix(boundaries: pd.DataFrame, X_char, char_index: pd.DataFrame, window: int):
+def build_delta_matrix(
+    boundaries: pd.DataFrame, X_char: np.ndarray, char_index: pd.DataFrame, window: int
+) -> tuple[np.ndarray, np.ndarray]:
     df = boundaries.sort_values(["level", "doc_id", "boundary_id"]).reset_index(drop=True)
     char_ix = char_index.sort_values(["level", "doc_id", "sent_id"]).reset_index(drop=True)
-    rows = []
+    y = df["y"].to_numpy().astype(int)
+    n_features = X_char.shape[1]
+    deltas = np.empty((len(df), n_features), dtype=np.float32)
+    ptr = 0
     for (level, doc_id), doc_bounds in tqdm(df.groupby(["level", "doc_id"], sort=False), desc="delta docs"):
         doc_sents = char_ix[(char_ix["level"] == level) & (char_ix["doc_id"] == doc_id)]
         row_idxs = doc_sents["row_idx"].to_numpy()
-        X_doc = X_char[row_idxs, :]
+        X_doc = X_char[row_idxs]
         n_sent = X_doc.shape[0]
         n_boundaries = max(0, n_sent - 1)
         if n_boundaries != len(doc_bounds):
@@ -129,15 +134,15 @@ def build_delta_matrix(boundaries: pd.DataFrame, X_char, char_index: pd.DataFram
             right_end = min(n_sent, b + 1 + window)
             v_left = X_doc[left_start:left_end].mean(axis=0)
             v_right = X_doc[right_start:right_end].mean(axis=0)
-            rows.append(v_right - v_left)
-    X_delta = sparse.vstack(rows).tocsr()
-    y = df["y"].to_numpy().astype(int)
-    return X_delta, y
+            deltas[ptr] = (v_right - v_left).astype(np.float32, copy=False)
+            ptr += 1
+    return deltas, y
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--components", type=int, default=128)
+    parser.add_argument("--char-components", type=int, default=256)
     parser.add_argument("--window", type=int, default=None)
     args = parser.parse_args()
 
@@ -154,17 +159,22 @@ def main():
     else:
         window = args.window
 
-    X_char_train = sparse.load_npz(features_dir / "X_train_char.npz")
-    X_char_val = sparse.load_npz(features_dir / "X_val_char.npz")
+    X_char_train = sparse.load_npz(features_dir / "X_train_char.npz").astype(np.float32)
+    X_char_val = sparse.load_npz(features_dir / "X_val_char.npz").astype(np.float32)
     idx_char_train = pd.read_csv(features_dir / "index_train.csv").reset_index().rename(columns={"index": "row_idx"})
     idx_char_val = pd.read_csv(features_dir / "index_val.csv").reset_index().rename(columns={"index": "row_idx"})
 
-    X_train_delta, y_train = build_delta_matrix(boundaries_train, X_char_train, idx_char_train, window)
-    X_val_delta, y_val = build_delta_matrix(boundaries_val, X_char_val, idx_char_val, window)
+    svd_char = TruncatedSVD(n_components=args.char_components, random_state=42)
+    X_char_train_red = svd_char.fit_transform(X_char_train).astype(np.float32, copy=False)
+    X_char_val_red = svd_char.transform(X_char_val).astype(np.float32, copy=False)
+    del X_char_train, X_char_val
+
+    X_train_delta, y_train = build_delta_matrix(boundaries_train, X_char_train_red, idx_char_train, window)
+    X_val_delta, y_val = build_delta_matrix(boundaries_val, X_char_val_red, idx_char_val, window)
 
     svd = TruncatedSVD(n_components=args.components, random_state=42)
-    X_train_red = svd.fit_transform(X_train_delta)
-    X_val_red = svd.transform(X_val_delta)
+    X_train_red = svd.fit_transform(X_train_delta).astype(np.float32, copy=False)
+    X_val_red = svd.transform(X_val_delta).astype(np.float32, copy=False)
 
     logreg = LogisticRegression(
         penalty="l2",
@@ -198,8 +208,8 @@ def main():
         "classification_report": classification_report(y_val, y_val_svm, digits=3),
     }, indent=2))
 
-    sparse.save_npz(processed / "X_train_delta.npz", X_train_delta)
-    sparse.save_npz(processed / "X_val_delta.npz", X_val_delta)
+    np.save(processed / "X_train_delta.npy", X_train_delta)
+    np.save(processed / "X_val_delta.npy", X_val_delta)
     np.save(processed / "y_train_delta.npy", y_train)
     np.save(processed / "y_val_delta.npy", y_val)
 
