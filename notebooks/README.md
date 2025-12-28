@@ -1,4 +1,6 @@
-# Notebooks — Entrega 2
+# Notebooks — Análisis Multi-Autor
+
+## Entregas 1-3: Pipeline base y modelos tradicionales
 
 **00_analisis_inicial_raw.ipynb.** Audita el corpus bruto por nivel y split para asegurar que los datos están completos y en el formato esperado. Recorre `data/raw/{easy,medium,hard}/{train,validation}`, cuenta documentos, estima frases y tokens de forma heurística y detecta vacíos o duplicados. Genera tablas de control y algunas figuras simples en `reports/` para respaldar decisiones del preprocesado.
 
@@ -21,3 +23,37 @@
 **09_word2vec_lstm_cnn.ipynb.** Extiende la experimentación a embeddings densos: deltas con Word2Vec + modelos lineales y prototipos neuronales ligeros (MLP, LSTM, CNN) sobre deltas y secuencias DistilBERT. Igual que en el 08, delega el preprocesado y entrenamiento a `scripts/09/`, y el notebook se limita a revisar shapes, explicar los pasos, cargar `reports/09_metrics.json` y comparar con los baselines previos.
 
 **10_analisis_modelos_por_nivel.ipynb.** Reúne todas las predicciones guardadas y recalcula métricas por nivel (`easy`, `medium`, `hard`) para cada modelo. Genera tablas resúmenes (F1, Pk, WindowDiff) y barplots comparativos guardados en `reports/10_*`. Sirve como panel de control para el informe: resalta qué modelos funcionan mejor por nivel y en global, incluyendo los baselines y los prototipos contextuales.
+
+## Entregas 4-5: Modelos de lenguaje grandes
+
+**11_icl_qwen3_scaling.ipynb.** Explora In-Context Learning (ICL) con la familia Qwen3 (0.6B, 1.7B, 4B, 8B) sin fine-tuning. Implementa prompting few-shot (0 a 10 ejemplos) para detectar cambios de autor. Analiza el scaling law: cómo varían las métricas (F1, accuracy) según el tamaño del modelo y el número de shots. Usa cuantización 4-bit (BitsAndBytes) para ejecutar modelos grandes en GPU con VRAM limitada. Guarda métricas en `reports/11_icl_metrics_final.json` con desglose por nivel (easy/medium/hard), número de shots y tamaño de modelo.
+
+**12_finetuning_transformers.ipynb.** Fine-tuning end-to-end de modelos transformer para clasificación binaria (mismo autor vs cambio de autor). Compara dos técnicas:
+- **Full fine-tuning** (DistilBERT-66M, Qwen3-0.6B): Entrena todos los parámetros.
+- **QLoRA** (Qwen3-1.7B, Qwen3-4B): Parameter-efficient fine-tuning con cuantización 4-bit + adaptadores LoRA de bajo rango.
+
+Incluye:
+- Métricas agregadas y por nivel de dificultad guardadas en `reports/12_finetuning_metrics_final.json`.
+- Checkpoints de modelos entrenados en `checkpoints/finetuning/{model_key}/best_model/`.
+- **Sección 13: Demo interactiva** que carga los checkpoints y permite:
+  - Probar predicciones en ejemplos del dataset (desglosados por nivel easy/medium/hard).
+  - Entrada manual de pares de oraciones personalizados.
+  - Análisis de casos de desacuerdo entre modelos (por nivel).
+  - Visualizaciones: heatmaps de tasas de desacuerdo entre modelos guardadas en `reports/12_disagreement_heatmap_{level}.png`.
+
+## Orden de ejecución recomendado
+
+**Preprocesado y features (E1-E2):**
+1. `00_analisis_inicial` → `01_preprocesamiento` → `02_analisis_datos`
+2. `03_repr_tradicionales` → `04_embeddings_estaticos` → `05_embeddings_contextuales`
+3. `06_analisis_final`
+
+**Modelos tradicionales y shallow (E3):**
+4. `07_boundaries_y_baselines` → `08_tfidf_ventanas_y_shallow` → `09_word2vec_lstm_cnn`
+5. `10_analisis_modelos_por_nivel`
+
+**Modelos de lenguaje grandes (E4-E5):**
+6. `11_icl_qwen3_scaling` (In-Context Learning, sin entrenamiento)
+7. `12_finetuning_transformers` (Fine-tuning con Full FT y QLoRA)
+
+**Nota:** Los notebooks 08-09 requieren ejecutar scripts de `scripts/` previamente. Los notebooks 11-12 requieren GPU con VRAM suficiente (mínimo 8GB, recomendado 16GB+ para modelos grandes).

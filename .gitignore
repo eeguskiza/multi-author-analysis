@@ -45,3 +45,4 @@ checkpoints/
 
 # Mantener informes Markdown
 !reports/*.md
+.claude/

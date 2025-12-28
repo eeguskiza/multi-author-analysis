@@ -1,4 +1,4 @@
-numpy>=1.24,<3
+numpy>=1.24,<2
 pandas>=2.0,<3
 scipy>=1.10,<2
 matplotlib>=3.7,<4
@@ -6,6 +6,10 @@ scikit-learn>=1.3,<2
 gensim>=4.3,<5
 nltk>=3.8,<4
 torch
-transformers>=4.44,<5
+transformers>=4.57,<5
 sentencepiece>=0.1.99,<0.2
-accelerate>=0.30,<1
+accelerate>=1.12,<2
+datasets>=2.14,<5
+peft>=0.12,<1
+bitsandbytes>=0.44,<1
+tqdm>=4.65,<5

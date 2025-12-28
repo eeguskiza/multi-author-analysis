@@ -1,0 +1,45 @@
+{
+  "qwen3:0.6b_standard": {
+    "metrics": {
+      "accuracy": 0.312,
+      "precision_macro": 0.5068822488177327,
+      "recall_macro": 0.5066639379908419,
+      "f1_macro": 0.3119559651817716,
+      "pk": 0.6840740740740742,
+      "windowdiff": 0.0,
+      "k_window": 1,
+      "invalid_responses": 0,
+      "invalid_rate": 0.0
+    },
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.82      0.19      0.31       403\n           1       0.20      0.82      0.32        97\n\n    accuracy                           0.31       500\n   macro avg       0.51      0.51      0.31       500\nweighted avg       0.70      0.31      0.31       500\n"
+  },
+  "qwen3:0.6b_thinking": {
+    "metrics": {
+      "accuracy": 0.254,
+      "precision_macro": 0.49021291208791207,
+      "recall_macro": 0.49416745542452223,
+      "f1_macro": 0.2479080552475048,
+      "pk": 0.7459259259259259,
+      "windowdiff": 0.0,
+      "k_window": 1,
+      "invalid_responses": 0,
+      "invalid_rate": 0.0
+    },
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.79      0.10      0.18       403\n           1       0.19      0.89      0.32        97\n\n    accuracy                           0.25       500\n   macro avg       0.49      0.49      0.25       500\nweighted avg       0.67      0.25      0.21       500\n"
+  },
+  "_metadata": {
+    "model": "qwen3:0.6b",
+    "n_eval": 500,
+    "n_shots": 15,
+    "seed": 42,
+    "modes": [
+      "standard",
+      "thinking"
+    ],
+    "eval_subset_distribution": {
+      "0": 403,
+      "1": 97
+    },
+    "note": "Evaluacion ICL comparando modo standard vs thinking (CoT + contexto extendido)"
+  }
+}
