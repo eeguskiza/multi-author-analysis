@@ -1,20 +1,58 @@
 {
   "qwen3:0.6b_standard": {
-    "metrics": {
-      "accuracy": 0.312,
-      "precision_macro": 0.5068822488177327,
-      "recall_macro": 0.5066639379908419,
-      "f1_macro": 0.3119559651817716,
-      "pk": 0.6840740740740742,
+    "metrics_aggregated": {
+      "accuracy": 0.314,
+      "precision_macro": 0.5080966355727912,
+      "recall_macro": 0.5079046327799237,
+      "f1_macro": 0.313975303110912,
+      "pk": 0.682962962962963,
       "windowdiff": 0.0,
       "k_window": 1,
       "invalid_responses": 0,
       "invalid_rate": 0.0
     },
+    "metrics_by_level": {
+      "easy": {
+        "accuracy": 0.33774834437086093,
+        "precision_macro": 0.4789240801117839,
+        "recall_macro": 0.4756720430107527,
+        "f1_macro": 0.3363220815752461,
+        "pk": 0.6666666666666666,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 151,
+        "n_class_0": 120,
+        "n_class_1": 31
+      },
+      "medium": {
+        "accuracy": 0.3263157894736842,
+        "precision_macro": 0.5458333333333334,
+        "recall_macro": 0.5366666666666666,
+        "f1_macro": 0.3244444444444444,
+        "pk": 0.6706114398422091,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 190,
+        "n_class_0": 150,
+        "n_class_1": 40
+      },
+      "hard": {
+        "accuracy": 0.27672955974842767,
+        "precision_macro": 0.5057836899942163,
+        "recall_macro": 0.5057836899942163,
+        "f1_macro": 0.27672955974842767,
+        "pk": 0.7123287671232876,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 159,
+        "n_class_0": 133,
+        "n_class_1": 26
+      }
+    },
     "classification_report": "              precision    recall  f1-score   support\n\n           0       0.82      0.19      0.31       403\n           1       0.20      0.82      0.32        97\n\n    accuracy                           0.31       500\n   macro avg       0.51      0.51      0.31       500\nweighted avg       0.70      0.31      0.31       500\n"
   },
   "qwen3:0.6b_thinking": {
-    "metrics": {
+    "metrics_aggregated": {
       "accuracy": 0.254,
       "precision_macro": 0.49021291208791207,
       "recall_macro": 0.49416745542452223,
@@ -25,10 +63,155 @@
       "invalid_responses": 0,
       "invalid_rate": 0.0
     },
+    "metrics_by_level": {
+      "easy": {
+        "accuracy": 0.2913907284768212,
+        "precision_macro": 0.5493854258121159,
+        "recall_macro": 0.530241935483871,
+        "f1_macro": 0.28524662685246627,
+        "pk": 0.7185185185185186,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 151,
+        "n_class_0": 120,
+        "n_class_1": 31
+      },
+      "medium": {
+        "accuracy": 0.24736842105263157,
+        "precision_macro": 0.4695238095238095,
+        "recall_macro": 0.4866666666666667,
+        "f1_macro": 0.23410852713178293,
+        "pk": 0.7435897435897436,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 190,
+        "n_class_0": 150,
+        "n_class_1": 40
+      },
+      "hard": {
+        "accuracy": 0.22641509433962265,
+        "precision_macro": 0.4505395683453237,
+        "recall_macro": 0.46023713128976285,
+        "f1_macro": 0.22531194295900175,
+        "pk": 0.773972602739726,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 159,
+        "n_class_0": 133,
+        "n_class_1": 26
+      }
+    },
     "classification_report": "              precision    recall  f1-score   support\n\n           0       0.79      0.10      0.18       403\n           1       0.19      0.89      0.32        97\n\n    accuracy                           0.25       500\n   macro avg       0.49      0.49      0.25       500\nweighted avg       0.67      0.25      0.21       500\n"
   },
+  "qwen3:1.7b_standard": {
+    "metrics_aggregated": {
+      "accuracy": 0.358,
+      "precision_macro": 0.5096186155913979,
+      "recall_macro": 0.5117162518226701,
+      "f1_macro": 0.35552262898582154,
+      "pk": 0.637037037037037,
+      "windowdiff": 0.0,
+      "k_window": 1,
+      "invalid_responses": 0,
+      "invalid_rate": 0.0
+    },
+    "metrics_by_level": {
+      "easy": {
+        "accuracy": 0.33774834437086093,
+        "precision_macro": 0.48888888888888893,
+        "recall_macro": 0.48763440860215057,
+        "f1_macro": 0.33702142606252194,
+        "pk": 0.6592592592592592,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 151,
+        "n_class_0": 120,
+        "n_class_1": 31
+      },
+      "medium": {
+        "accuracy": 0.38421052631578945,
+        "precision_macro": 0.5074074074074074,
+        "recall_macro": 0.5091666666666667,
+        "f1_macro": 0.3803484320557491,
+        "pk": 0.6104536489151874,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 190,
+        "n_class_0": 150,
+        "n_class_1": 40
+      },
+      "hard": {
+        "accuracy": 0.29559748427672955,
+        "precision_macro": 0.4884559884559885,
+        "recall_macro": 0.4861191440138809,
+        "f1_macro": 0.2942295497780596,
+        "pk": 0.7031963470319634,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 159,
+        "n_class_0": 133,
+        "n_class_1": 26
+      }
+    },
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.82      0.26      0.40       403\n           1       0.20      0.76      0.32        97\n\n    accuracy                           0.36       500\n   macro avg       0.51      0.51      0.36       500\nweighted avg       0.70      0.36      0.38       500\n"
+  },
+  "qwen3:1.7b_thinking": {
+    "metrics_aggregated": {
+      "accuracy": 0.308,
+      "precision_macro": 0.5086525055359633,
+      "recall_macro": 0.5080964927988539,
+      "f1_macro": 0.3078228026374752,
+      "pk": 0.6903703703703703,
+      "windowdiff": 0.0,
+      "k_window": 1,
+      "invalid_responses": 0,
+      "invalid_rate": 0.0
+    },
+    "metrics_by_level": {
+      "easy": {
+        "accuracy": 0.26490066225165565,
+        "precision_macro": 0.483099209833187,
+        "recall_macro": 0.4896505376344086,
+        "f1_macro": 0.25852687458526874,
+        "pk": 0.7407407407407407,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 151,
+        "n_class_0": 120,
+        "n_class_1": 31
+      },
+      "medium": {
+        "accuracy": 0.3526315789473684,
+        "precision_macro": 0.5468115173997528,
+        "recall_macro": 0.5441666666666667,
+        "f1_macro": 0.35247014491147377,
+        "pk": 0.631163708086785,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 190,
+        "n_class_0": 150,
+        "n_class_1": 40
+      },
+      "hard": {
+        "accuracy": 0.29559748427672955,
+        "precision_macro": 0.47661290322580646,
+        "recall_macro": 0.4706477732793522,
+        "f1_macro": 0.29333333333333333,
+        "pk": 0.7123287671232876,
+        "windowdiff": 0.0,
+        "k_window": 1,
+        "n_examples": 159,
+        "n_class_0": 133,
+        "n_class_1": 26
+      }
+    },
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.82      0.18      0.30       403\n           1       0.20      0.84      0.32        97\n\n    accuracy                           0.31       500\n   macro avg       0.51      0.51      0.31       500\nweighted avg       0.70      0.31      0.30       500\n"
+  },
   "_metadata": {
-    "model": "qwen3:0.6b",
+    "models": [
+      "qwen3:0.6b",
+      "qwen3:1.7b"
+    ],
     "n_eval": 500,
     "n_shots": 15,
     "seed": 42,
@@ -40,6 +223,11 @@
       "0": 403,
       "1": 97
     },
-    "note": "Evaluacion ICL comparando modo standard vs thinking (CoT + contexto extendido)"
+    "eval_subset_by_level": {
+      "easy": 151,
+      "medium": 190,
+      "hard": 159
+    },
+    "note": "Evaluacion ICL comparando 2 modelos (qwen3:0.6b y qwen3:1.7b) en 2 modos cada uno (standard vs thinking con CoT + contexto extendido). Incluye metricas agregadas y desglosadas por nivel de dificultad."
   }
 }
